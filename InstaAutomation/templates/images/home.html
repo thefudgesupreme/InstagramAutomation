@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Image Gallery</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/image_home.css' %}">
+</head>
+<body>
+    <div class="image-grid">
+        {% for image in images %}
+        <div class="image-item" id="image-{{ image.id }}">
+            <img src="{{ image.image.url }}" 
+                 alt="{{ image.title }}"
+                 onload="setImageOrientation(this)">
+            <div class="image-info">
+                <h3 class="image-title">{{ image.title }}</h3>
+                <span class="upload-status {% if image.imgur_uploaded %}status-yes{% else %}status-no{% endif %}">
+                    {{ image.imgur_uploaded|yesno:"Yes,No" }}
+                </span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <script>
+    function setImageOrientation(img) {
+        const card = img.parentElement;
+        if (img.naturalWidth > img.naturalHeight) {
+            card.classList.add('landscape');
+        } else {
+            card.classList.add('portrait');
+        }
+    }
+    </script>
+</body>
+</html>
