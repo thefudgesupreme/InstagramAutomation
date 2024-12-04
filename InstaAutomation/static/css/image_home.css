@@ -1,4 +1,3 @@
-
 /* Image Home Page Styles */
 :root {
     --primary-bg: #ffffff;
@@ -22,8 +21,13 @@
       gap: 24px;
       max-width: 1400px;
       margin: 0 auto;
-      background-color: var(--primary-bg);
-      transition: background-color 0.3s ease;
+      padding: 20px;
+  }
+
+  .image-grid a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
   }
 
   .image-item {
@@ -32,6 +36,25 @@
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 280px;
+  }
+
+  .image-item.landscape {
+      grid-column: span 2;
+      height: 280px;
+  }
+
+  .image-item.portrait {
+      grid-row: span 2;
+      height: 584px;
+  }
+
+  .image-grid a:has(.landscape) {
+      grid-column: span 2;
+  }
+
+  .image-grid a:has(.portrait) {
+      grid-row: span 2;
   }
 
   .image-item:hover {
@@ -41,20 +64,17 @@
 
   .image-item img {
       width: 100%;
-      height: auto;
-      max-height: 500px;
-      object-fit: fill;
-      display: block;
+      height: 100%;
+      object-fit: cover;
   }
-
-  /* Horizontal layout for landscape images */
   .image-item.landscape {
       grid-column: span 2;
+      height: 280px;
   }
 
-  /* Vertical layout for portrait images */
   .image-item.portrait {
       grid-row: span 2;
+      height: 584px; /* accounts for gap: 280px * 2 + 24px */
   }
 .image-info {
     position: absolute;
@@ -85,63 +105,6 @@
     opacity: 0.8;
 }
 
-.loading-skeleton {
-    background: linear-gradient(90deg, var(--secondary-bg) 25%, var(--border-color) 50%, var(--secondary-bg) 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-    0% {
-        background-position: 200% 0;
-    }
-    100% {
-        background-position: -200% 0;
-    }
-}
-
-.image-actions {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 10px;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.image-item:hover .image-actions {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.action-button {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.action-button:hover {
-    background-color: #0074cc;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 40px;
-    color: var(--text-color);
-}
-
-.empty-state-icon {
-    font-size: 48px;
-    margin-bottom: 20px;
-    opacity: 0.5;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
     .image-grid {
@@ -150,8 +113,9 @@
         padding: 15px;
     }
 
-    .image-item img {
-        height: 250px;
+    .image-item.landscape {
+        grid-column: span 1;
+        aspect-ratio: 1;
     }
 }
 

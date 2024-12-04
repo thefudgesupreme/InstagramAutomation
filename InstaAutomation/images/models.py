@@ -6,7 +6,7 @@ import os, datetime
 
 class Image(models.Model):
     title=models.CharField(max_length=100,blank=False)
-    slug = models.SlugField(unique=True,blank=True)
+    slug = models.SlugField(unique=True,blank=True,)
     datetime = models.DateTimeField(default=datetime.datetime.now)
     imgur_uploaded = models.BooleanField(default=False)
     imgur_url = models.URLField(blank=True)
@@ -14,8 +14,7 @@ class Image(models.Model):
 
 
     def save(self, *args, **kwargs) -> None:
-        print(self.datetime)
         if self.slug == "":
-            self.slug = slugify(self.title+self.datetime.strftime('%m/%d/%Y'), allow_unicode=True)
+            self.slug = slugify(hash(self.title+self.datetime.strftime('%m%d%Y-%H%M%S')), allow_unicode=True)
         return super().save()
         

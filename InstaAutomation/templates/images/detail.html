@@ -1,0 +1,109 @@
+{% extends 'images/base.html' %} {% load static %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/images_detail.css' %}" />
+{% endblock %} {% block content %}
+<div class="image-detail-container">
+  <div class="image-card">
+    <div class="title-wrapper">
+      <h1 class="image-title">{{ image.title }}</h1>
+    </div>
+    <div class="image-wrapper">
+      <img src="{{ image.image.url }}" alt="{{ image.title }}" />
+    </div>
+    <div class="image-info">
+      <div class="date-container">
+        <p class="upload-date">
+          <span class="date-icon">📅</span>
+          <span class="date-text">{{ image.datetime|date:"F d, Y H:i" }}</span>
+        </p>
+      </div>
+      {% if image.imgur_uploaded %}
+      <p class="imgur-status">✓ Uploaded to Imgur</p>
+      <a href="{{ image.imgur_url }}" class="imgur-link" target="_blank"
+        >View on Imgur →</a
+      >
+      {% else %}
+      <p class="imgur-status pending">Pending Imgur Upload</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="lightbox">
+  <div class="close-lightbox">×</div>
+  <img src="{{ image.image.url }}" alt="{{ image.title }}" />
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const imageWrapper = document.querySelector(".image-wrapper");
+    const lightbox = document.querySelector(".lightbox");
+    const lightboxImg = lightbox.querySelector("img");
+    const closeLightbox = document.querySelector(".close-lightbox");
+    let isAnimating = false;
+
+    function getOriginalImagePosition() {
+      const originalImg = imageWrapper.querySelector("img");
+      const rect = originalImg.getBoundingClientRect();
+      return {
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height,
+      };
+    }
+
+    imageWrapper.addEventListener("click", function () {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      const originalPos = getOriginalImagePosition();
+      lightbox.style.display = "flex";
+
+      requestAnimationFrame(() => {
+        lightbox.classList.add("active");
+        isAnimating = false;
+      });
+      document.body.style.overflow = "hidden";
+    });
+
+    function closeLightboxHandler() {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      const originalPos = getOriginalImagePosition();
+      lightboxImg.style.position = "fixed";
+      lightboxImg.style.top = `${originalPos.top}px`;
+      lightboxImg.style.left = `${originalPos.left}px`;
+      lightboxImg.style.width = `${originalPos.width}px`;
+      lightboxImg.style.height = `${originalPos.height}px`;
+
+      lightbox.classList.remove("active");
+
+      setTimeout(() => {
+        lightbox.style.display = "none";
+        lightboxImg.style.position = "";
+        lightboxImg.style.top = "";
+        lightboxImg.style.left = "";
+        lightboxImg.style.width = "";
+        lightboxImg.style.height = "";
+        document.body.style.overflow = "auto";
+        isAnimating = false;
+      }, 400);
+    }
+
+    closeLightbox.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeLightboxHandler();
+    });
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightboxHandler();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightboxHandler();
+    });
+  });
+</script>
+
+{% endblock %}
