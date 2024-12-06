@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView
 from .models import Image
+from .imgur_upload import post_image
+from django.contrib import messages
 
 # Create your views here.
 class ImagesView(ListView):
@@ -29,3 +31,16 @@ class ImageDetailView(DetailView):
     #     context = super().get_context_data(**kwargs)
     #     context['image'] = self.object
     #     return context
+
+def imgur_upload(request, slug):
+    image = Image.objects.get(slug=slug)
+    print(f'slug: {slug}')
+    uploaded, link=post_image(image.title, "", image.image.path)
+    if uploaded:
+        image.imgur_uploaded = uploaded
+        image.imgur_url = link
+        image.save()
+    else:
+        messages.add_message(request, messages.ERROR, 'Changes successfully saved.')
+    return redirect(to=f'/images/{image.slug}', permanent=False)
+

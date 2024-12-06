@@ -34,6 +34,15 @@
     object-fit: contain;
 }
 
+.button {
+    padding: 1px 6px;
+    border: 1px outset buttonborder;
+    border-radius: 3px;
+    color: buttonface;
+    background-color: buttonface;
+    text-decoration: none;
+}
+
 .lightbox.active {
     display: flex;
     justify-content: center;
