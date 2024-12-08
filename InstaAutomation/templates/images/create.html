@@ -1,0 +1,39 @@
+{% extends 'images/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/image_create.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="create-container">
+    <h2>Upload New Image</h2>
+    <form method="POST" enctype="multipart/form-data" class="create-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="image">Image</label>
+            <div class="file-upload">
+                <input type="file" name="image" id="image" accept="image/*" required>
+                <label for="image" class="file-label">Choose File</label>
+            </div>
+            <div id="file-name" class="file-name"></div>
+        </div>
+
+        <button type="submit" class="submit-btn">Upload Image</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('image').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name || 'No file chosen';
+        document.getElementById('file-name').textContent = fileName;
+    });
+</script>
+{% endblock %}

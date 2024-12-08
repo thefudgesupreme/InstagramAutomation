@@ -1,0 +1,237 @@
+.image-detail-container {
+    max-width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.image-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.button {
+    padding: 1px 6px;
+    border: 1px outset buttonborder;
+    border-radius: 3px;
+    color: buttonface;
+    background-color: buttonface;
+    text-decoration: none;
+}
+
+.lightbox.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lightbox img {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    transform-origin: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.lightbox.active img {
+    transform: scale(1);
+}
+
+
+.close-lightbox {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.close-lightbox:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Title Animation */
+.title-wrapper {
+    padding: 2rem;
+    text-align: center;
+}
+
+.image-title {
+    font-size: 2.5rem;
+    color: #333;
+    display: inline-block;
+    position: relative;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideUpFade 0.6s ease forwards;
+}
+
+.image-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #007bff, #00ff88);
+    animation: underlineExpand 0.8s ease 0.6s forwards;
+}
+
+
+/* Info Section Enhancements */
+.image-info {
+    padding: 2rem;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    border-radius: 0 0 15px 15px;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUpFade 0.6s ease 0.3s forwards;
+}
+
+.date-container {
+    margin-bottom: 1.5rem;
+}
+
+.upload-date {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    font-size: 1.1rem;
+    transform: translateX(-50px);
+    opacity: 0;
+    animation: slideInRight 0.5s ease 0.6s forwards;
+}
+
+.date-icon {
+    font-size: 1.2rem;
+}
+
+.date-text {
+    font-weight: 500;
+}
+
+
+.imgur-status {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    transform: scale(0.8);
+    opacity: 0;
+    animation: popIn 0.4s ease 0.8s forwards;
+}
+
+.imgur-link,.btn-danger,.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    padding: 12px 25px;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #007bff, #00a6ff);
+    color: white;
+    text-decoration: none;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUpFade 0.5s ease 1s forwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imgur-link:hover, .btn-danger:hover, .btn-primary:hover {  
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* Keyframe Animations */
+@keyframes underlineExpand {
+    to {
+        width: 60%;
+    }
+}
+
+@keyframes slideUpFade {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    50% {
+        transform: scale(1.1);
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Status Indicators */
+.imgur-status {
+    background: #28a745;
+    color: white;
+    box-shadow: 0 3px 10px rgba(40, 167, 69, 0.2);
+}
+
+.imgur-status.pending {
+    background: linear-gradient(45deg, #ffc107, #ffdb4d);
+    color: #000;
+    box-shadow: 0 3px 10px rgba(255, 193, 7, 0.2);
+}
+
