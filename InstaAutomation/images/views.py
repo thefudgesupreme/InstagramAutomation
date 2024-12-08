@@ -1,6 +1,7 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, DetailView
-from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.detail import SingleObjectTemplateResponseMixin
+from django.views.generic import DeleteView
 from django.views.generic.edit import CreateView
 from .models import Image
 from .imgur_upload import post_image
@@ -27,10 +28,13 @@ class ImageDetailView(DetailView):
     template_name = 'images/detail.html'
     context_object_name = 'image'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['image'] = self.object
-    #     return context
+class ImageDeleteView(DeleteView):
+    model = Image
+    template_name = 'images/delete.html'
+    success_url = '/images/'
+
+    def get_object(self):
+        return get_object_or_404(Image, slug=self.kwargs['slug'])
 
 def imgur_upload(request, slug):
     image = Image.objects.get(slug=slug)
@@ -40,7 +44,10 @@ def imgur_upload(request, slug):
         image.imgur_uploaded = uploaded
         image.imgur_url = link
         image.save()
+        print("Upload successful")
+        messages.add_message(request, messages.SUCCESS, 'Upload successful')
     else:
-        messages.add_message(request, messages.ERROR, 'Changes successfully saved.')
+        print("Upload failed")
+        messages.add_message(request, messages.ERROR, 'Upload failed')
     return redirect(to=f'/images/{image.slug}', permanent=False)
 
