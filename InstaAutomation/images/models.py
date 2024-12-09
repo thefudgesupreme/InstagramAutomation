@@ -5,7 +5,7 @@ import os, datetime
 # Create your models here.
 
 class Image(models.Model):
-    title=models.CharField(max_length=100,blank=False)
+    title=models.CharField(max_length=100,blank=True)
     slug = models.SlugField(unique=True,blank=True,)
     datetime = models.DateTimeField(default=datetime.datetime.now)
     imgur_uploaded = models.BooleanField(default=False)
