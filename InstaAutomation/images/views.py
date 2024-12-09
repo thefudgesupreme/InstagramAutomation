@@ -3,6 +3,8 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.detail import SingleObjectTemplateResponseMixin
 from django.views.generic import DeleteView
 from django.views.generic.edit import CreateView
+
+from .forms import ImageForm
 from .models import Image
 from .imgur_upload import post_image
 from django.contrib import messages
@@ -12,16 +14,21 @@ class ImagesView(ListView):
     model = Image
     template_name = 'images/home.html'
     context_object_name = 'images'
-
-class ImageCreateView(CreateView):
-    model = Image
-    fields = ['title', 'image', ]
-    template_name = 'images/create.html'
-    success_url = '/images/'
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+def image_create_view(request):
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        files=request.FILES.getlist('image')
+        if form.is_valid():
+            for f in files:
+                image = Image(image=f)
+                image.save()
+                 
+                del image
+            return redirect('images-home')
+    else:
+        form = ImageForm()
+    return render(request, 'images/create.html', {'form': form})
+    
     
 class ImageDetailView(DetailView):
     model = Image

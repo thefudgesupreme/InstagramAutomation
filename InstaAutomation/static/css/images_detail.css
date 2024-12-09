@@ -170,7 +170,7 @@
     animation: popIn 0.4s ease 0.8s forwards;
 }
 
-.imgur-link,.btn-danger,.btn-primary {
+.imgur-link,.btn-primary {
     display: inline-flex;
     align-items: center;
     gap: 8px;
