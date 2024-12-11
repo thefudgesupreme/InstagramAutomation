@@ -29,10 +29,13 @@
       >
       {% else %}
       <p class="imgur-status pending">Pending Imgur Upload</p>
-        <a class="btn btn-primary" href="{% url 'images-upload' image.slug %}" role="button">Link</a>
+        <a class="btn btn-primary" href="{% url 'images-upload' image.slug %}" role="button">Upload to Imgur</a>
       {% endif %}
-
       <a class="btn btn-danger" href="{% url 'images-delete' image.slug %}" role="button">Delete Image</a>
+      
+      {% if not image.title or not image.description %}
+      <a href="{%  url 'images-process' image.slug %}" class="image-process">Generate Title & Description</a>
+      {% endif %}
     </div>
   </div>
 </div>
@@ -57,8 +60,8 @@
     {% else %}
      <img src="{% static 'assets/icons/checked.png' %}" width="25" height="25" class="rounded me-2" alt="..."> 
     {% endif %}
-    <strong class="me-auto">"Upload Status"</strong>
-    <small class="text-body-secondary">1 mins ago</small>
+    <strong class="me-auto">Status Update</strong>
+    <small class="text-body-secondary">just now</small>
     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
   </div>
   <div class="toast-body">

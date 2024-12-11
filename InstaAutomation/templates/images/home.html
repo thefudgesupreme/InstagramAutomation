@@ -1,10 +1,10 @@
 {% extends 'images/base.html' %} {% load static %} {% block title %}<title>
   Image Gallery</title
->{% endblock %} {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/image_home.css' %}" />
-{% endblock %} {% block content %}
-<div class="image-grid">
-  {% for image in images %}
+  >{% endblock %} {% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/image_home.css' %}" />
+  {% endblock %} {% block content %}
+  <div class="image-grid">
+    {% for image in images %}
   <div
     class="image-item"
     id="image-{{ image.id }}"
