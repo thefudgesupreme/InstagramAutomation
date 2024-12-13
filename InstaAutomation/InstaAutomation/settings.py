@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    "django_htmx",
+    "allauth",
+    "allauth.account",
+
+
     # Custom Apps
     "images"
 ]
@@ -49,6 +54,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "InstaAutomation.urls"

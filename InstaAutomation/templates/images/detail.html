@@ -22,6 +22,14 @@
           <span class="date-text">{{ image.datetime|date:"F d, Y H:i" }}</span>
         </p>
       </div>
+      {% if image.description %}
+      <div class="description-container">
+        <div class="description-wrapper">
+          <h2 class="description-title">Description</h2>
+          <p class="description-text">{{ image.description }}</p>
+        </div>
+      </div>
+      {% endif %}
       {% if image.imgur_uploaded %}
       <p class="imgur-status">✓ Uploaded to Imgur</p>
       <a href="{{ image.imgur_url }}" class="imgur-link" target="_blank"
@@ -154,6 +162,24 @@
   const toast = new bootstrap.Toast(toastTrigger);
   toast.show();
   
+  document.addEventListener('DOMContentLoaded', function() {
+  const descContainer = document.querySelector('.description-container');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animation = 'slideUp 0.6s ease-out forwards';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  if (descContainer) {
+    observer.observe(descContainer);
+  }
+});
 </script>
 
 {% endblock %}

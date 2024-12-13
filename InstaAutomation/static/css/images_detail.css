@@ -170,6 +170,70 @@
     animation: popIn 0.4s ease 0.8s forwards;
 }
 
+.description-container {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slideUp 0.6s ease-out forwards;
+  }
+  
+  .description-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .description-title {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  
+  .description-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #007bff, #00c6ff);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: lineGrow 0.6s 0.3s ease-out forwards;
+  }
+  
+  .description-text {
+    color: #666;
+    line-height: 1.6;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: fadeIn 0.6s 0.4s ease-out forwards;
+  }
+  
+  @keyframes slideUp {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes lineGrow {
+    to {
+      transform: scaleX(1);
+    }
+  }
+  
+  @keyframes fadeIn {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
 .imgur-link,.btn-primary {
     display: inline-flex;
     align-items: center;
